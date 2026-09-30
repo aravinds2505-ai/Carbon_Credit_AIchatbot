@@ -5,8 +5,10 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from vector_store import VectorStore
 from openai import OpenAI
+from dotenv import load_dotenv
 
-GROQ_API_KEY = "REDACTED_GROQ_API_KEY"
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
+
 if os.environ.get("VERCEL"):
     os.environ.setdefault("HF_HOME", "/tmp/huggingface")
 
@@ -19,12 +21,19 @@ SYSTEM_PROMPT = """You are an AI assistant specializing in the Carbon Credit Mar
 
 Your purpose is to help businesses understand carbon credits, carbon markets, participation requirements, compliance obligations, documentation, verification, authorities, procedures, and timelines.
 
-You must provide answers based primarily on the retrieved source documents supplied to you through the RAG system."""
+You must provide answers based primarily on the retrieved source documents supplied to you through the RAG system.
+
+Format every response in clear Markdown. Start with a concise "### Answer" section. Use short paragraphs, descriptive subheadings when useful, bullets for grouped facts, and numbered steps for procedures. Bold important terms sparingly. Avoid dense walls of text.
+
+End every response with a "### Sources" section. For each source, list its document title, relevant authority, publication or effective date when available, page/section/clause reference, and source link. Only use details present in the retrieved sources. For unavailable details, write "Not available in retrieved sources"; never guess or invent citations."""
 
 
 @lru_cache(maxsize=1)
 def get_client():
-    return OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError("GROQ_API_KEY is missing. Set it in .env or your deployment environment.")
+    return OpenAI(api_key=api_key, base_url="https://api.groq.com/openai/v1")
 
 
 @lru_cache(maxsize=1)

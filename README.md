@@ -17,11 +17,17 @@ Open `http://localhost:5000`. The UI uses the processed files in `data/` (`chunk
 
 In the desktop UI, select one or more PDFs with **Upload PDFs**, wait for them to appear in the source list, then select **Ingest PDFs** to rebuild the chunks and vector store. Ask questions separately in the bar at the bottom of the page. Uploading files does not start ingestion automatically.
 
+Set the Groq key locally in an untracked `.env` file before starting the app:
+
+```text
+GROQ_API_KEY=your-groq-api-key
+```
+
 ## Deploy to Vercel
 
 The root `app.py` is the Flask entrypoint. Import this repository as a Vercel project with the project root set to `Carbon_AI_Chatbot`, or install the Vercel CLI and run `vercel` from this directory. Vercel serves assets from `public/`; `vercel.json` includes the vector data and excludes source PDFs and local-only scripts from the function bundle.
 
-The Groq API key remains directly in `query.py`, as configured for this project. Keep the repository private and replace the key if it has been exposed.
+Set `GROQ_API_KEY` in the Vercel project environment variables for Production, Preview, and Development as needed. Do not commit `.env`; it is ignored by Git.
 
 ### Vercel runtime considerations
 

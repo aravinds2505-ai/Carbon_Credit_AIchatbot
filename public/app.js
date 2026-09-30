@@ -68,7 +68,7 @@ async function refreshLibrary() {
   }
 }
 
-function addMessage(kind, label, text) {
+function addMessage(kind, label, text, renderMarkdown = false) {
   const article = document.createElement("article");
   article.className = `message ${kind}`;
 
@@ -84,7 +84,11 @@ function addMessage(kind, label, text) {
   heading.textContent = label;
   const body = document.createElement("div");
   body.className = "message-text";
-  body.textContent = text;
+  if (renderMarkdown) {
+    body.innerHTML = text;
+  } else {
+    body.textContent = text;
+  }
   content.append(heading, body);
   article.append(avatar, content);
   messages.append(article);
@@ -122,7 +126,7 @@ async function ask(question) {
     typing.remove();
     if (!response.ok) throw new Error(data.error || "The request could not be completed.");
     if (data.joke) addMessage("joke", "A QUICK AI JOKE", data.joke);
-    addMessage("assistant", "CARBON DESK", data.answer);
+    addMessage("assistant", "CARBON DESK", data.answer_html || data.answer, true);
   } catch (error) {
     typing.remove();
     addMessage("error", "REQUEST FAILED", error.message || "Please try again.");

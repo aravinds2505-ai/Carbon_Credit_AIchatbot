@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request
+from markdown_it import MarkdownIt
 from werkzeug.utils import secure_filename
 
 from query import query
@@ -13,6 +14,7 @@ VERCEL_DEPLOYMENT = bool(os.environ.get("VERCEL"))
 
 app = Flask(__name__, static_folder="public", static_url_path="")
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
+answer_markdown = MarkdownIt("commonmark", {"html": False}).disable("image")
 
 
 def get_pdf_names():
@@ -48,7 +50,11 @@ def handle_query():
         app.logger.exception("Query failed")
         return jsonify({"error": "The assistant could not complete that request."}), 500
 
-    return jsonify({"joke": joke[0] if joke else "", "answer": answer})
+    return jsonify({
+        "joke": joke[0] if joke else "",
+        "answer": answer,
+        "answer_html": answer_markdown.render(answer),
+    })
 
 
 @app.get("/api/documents")
