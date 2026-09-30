@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f2">
+  <title>Carbon Desk | CCTS assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="rail" aria-label="Workspace">
+      <a class="brand" href="/" aria-label="Carbon Desk home">
+        <span class="brand-mark" aria-hidden="true">C</span>
+        <span>carbon<span class="brand-light">desk</span></span>
+      </a>
+
+      <div class="rail-label">WORKSPACE</div>
+      <div class="workspace-item" aria-current="page">
+        <span class="workspace-dot" aria-hidden="true"></span>
+        <span>Market intelligence</span>
+      </div>
+
+      <div class="rail-divider"></div>
+      <div class="library-heading">
+        <div class="rail-label">SOURCE DOCUMENTS</div>
+        <span class="document-count" id="document-count">0</span>
+      </div>
+      <div class="document-list" id="document-list" aria-live="polite">
+        <div class="library-empty">No PDFs uploaded</div>
+      </div>
+
+      <div class="rail-spacer"></div>
+      <div class="rail-note">
+        <span class="status-mark" aria-hidden="true"></span>
+        <span>Source-grounded answers</span>
+      </div>
+      <div class="rail-footer">INDIA · CARBON MARKETS</div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <div class="topbar-context"><span>WORKSPACE</span><span class="crumb-divider">/</span><strong>Market intelligence</strong></div>
+        <div class="topbar-right">
+          <div class="ingest-status" id="ingest-status" role="status" aria-live="polite">Checking document library...</div>
+          <div class="pdf-actions">
+            <input class="sr-only" id="pdf-input" type="file" accept="application/pdf,.pdf" multiple>
+            <button class="tool-button upload-button" id="upload-button" type="button"><span class="button-symbol" aria-hidden="true">+</span> Upload PDFs</button>
+            <button class="tool-button ingest-button" id="ingest-button" type="button" disabled>Ingest PDFs</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="conversation" aria-label="Carbon market assistant">
+        <div class="conversation-inner" id="conversation">
+          <div class="intro" id="intro">
+            <div class="eyebrow"><span class="eyebrow-rule"></span> CARBON CREDIT TRADING SCHEME</div>
+            <h1>Clarity for a<br><em>changing market.</em></h1>
+            <p class="intro-copy">Ask about India’s carbon market, CCTS obligations, or the documents that shape them.</p>
+            <div class="starter-label">START WITH A QUESTION</div>
+            <div class="starter-list">
+              <button class="starter" type="button" data-question="What is the Indian Carbon Credit Trading Scheme?"><span>What is the Indian CCTS?</span><span class="starter-arrow" aria-hidden="true">↗</span></button>
+              <button class="starter" type="button" data-question="Which entities must comply with the Indian CCTS and how is compliance determined?"><span>Who needs to comply?</span><span class="starter-arrow" aria-hidden="true">↗</span></button>
+              <button class="starter" type="button" data-question="How are carbon credit certificates issued under the offset mechanism?"><span>How are certificates issued?</span><span class="starter-arrow" aria-hidden="true">↗</span></button>
+            </div>
+          </div>
+          <div class="message-list" id="messages" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <footer class="composer-wrap">
+        <form class="composer" id="question-form">
+          <label class="sr-only" for="question">Ask about CCTS and carbon markets</label>
+          <textarea id="question" name="question" rows="1" maxlength="2000" placeholder="Ask about CCTS, credits, or compliance..." required></textarea>
+          <button class="send-button" id="send-button" type="submit" aria-label="Send question"><span>Ask</span><span class="send-arrow" aria-hidden="true">↗</span></button>
+        </form>
+        <div class="composer-meta"><span>Answers are grounded in the available source documents.</span><span>ENTER TO SEND · SHIFT + ENTER FOR A NEW LINE</span></div>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

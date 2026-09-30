@@ -1,0 +1,12 @@
+faiss-cpu
+sentence-transformers
+PyPDF2
+tqdm
+numpy
+scikit-learn
+flask
+gunicorn
+python-dotenv
+openai
+transformers
+accelerate
